@@ -11,11 +11,11 @@ Ovaj repozitorijum sadrži primere za REST (HTTP), Message Queue i RPC komunikac
 
 1. Kloniraj repo:
 ```sh
-git clone https://github.com/your-username/rest-rabbitmq-rpc-demo.git
-cd rest-rabbitmq-rpc-demo       
+git clone https://github.com/dpavle/komunikacija-demo.git
+cd komunikacija-demo       
 ```
 
-2. Kreirajte virtuelno okruženje (opciono, ali preporučljivo):
+2. Kreirajte virtuelno okruženje (opcionalno, ali preporučljivo):
 ```sh
 python -m venv venv
 source venv/bin/activate # Na Windows-u koristite "venv\Scripts\activate"
@@ -35,6 +35,7 @@ Proverite da je RabbitMQ instaliran i pokrenut na `localhost`. Ako je potrebno, 
 REST API vam omogućava:
 
 - Dobavljanje svih zadataka: `GET /api/tasks`
+- Označavanje zadatka kao završenog: `PUT /api/tasks/<task_id>`
 
 ### Primer zahteva i odgovora
 
@@ -62,7 +63,8 @@ REST API vam omogućava:
 
 ## Message Queue sa RabbitMQ
 
-Integracija sa RabbitMQ omogućava asinhronu obradu zadataka. mq_client.py šalje zahteve mq_worker.py-u, a mq_worker.py simulira obradu svakog zahteva asinhrono.
+Integracija sa RabbitMQ omogućava asinhronu obradu zadataka. mq_client.py šalje zahteve mq_worker.py-u, a mq_worker.py simulira obradu svakog zahteva asinhrono. Bitno je napomenuti da mq_client.py u ovom scenariju ne čeka odgovor na zahteve koje je poslao. 
+
 Pokretanje Message Queue Servera (Worker)
 
 Pokrenite mq_worker.py kako biste omogućili obradu asinhronih zahteva:
@@ -80,7 +82,7 @@ python mq_client.py
 
 ## RPC sa RabbitMQ
 
-Implementacija RPC-a koristi RabbitMQ za simuliranje obrasca udaljenog pozivanja procedure. rpc_client.py šalje zahteve rpc_server.py-u, a rpc_server.py asinhrono obrađuje svaki zahtev i odgovara klijentu sa statusom traženog zadatka.
+Implementacija RPC-a koristi RabbitMQ za simuliranje RPC obrasca. rpc_client.py šalje zahteve rpc_server.py-u, a rpc_server.py asinhrono obrađuje svaki zahtev i odgovara klijentu sa statusom traženog zadatka.
 
 Pokrenite rpc_server.py kako biste omogućili obradu RPC zahteva:
 ```sh
