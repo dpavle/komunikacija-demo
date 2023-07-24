@@ -15,6 +15,6 @@ services:
   rpc_server:
     image: rpc_server
     environment:
-          RABBITMQ_HOSTNAME: komunikacija-demo-rabbitmq-1
+      RABBITMQ_HOSTNAME: komunikacija-demo-rabbitmq-1
   rest_server:
     image: rest_server
