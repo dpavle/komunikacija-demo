@@ -1,8 +1,9 @@
 import pika
 import time
+import os
 
 # Connect to RabbitMQ
-connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
+connection = pika.BlockingConnection(pika.ConnectionParameters(os.environ['RABBITMQ_HOSTNAME'] or 'rabbitmq'))
 channel = connection.channel()
 
 # Declare the queue

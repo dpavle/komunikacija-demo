@@ -1,0 +1,20 @@
+version: '3'
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports: 
+      - "15672:15672" 
+      - "5672:5672"
+    volumes: 
+      - ./rabbitmq/rabbitmq.conf:/etc/rabbitmq.conf:ro
+      - ./rabbitmq/definitions.json:/etc/rabbitmq/definitions.json:ro
+  mq_worker:
+    image: mq_worker
+    environment:
+      RABBITMQ_HOSTNAME: komunikacija-demo-rabbitmq-1
+  rpc_server:
+    image: rpc_server
+    environment:
+          RABBITMQ_HOSTNAME: komunikacija-demo-rabbitmq-1
+  rest_server:
+    image: rest_server

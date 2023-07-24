@@ -1,10 +1,11 @@
 import pika
 import uuid
 import timeit
+import sys
 
 class RpcClient:
     def __init__(self):
-        self.connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
+        self.connection = pika.BlockingConnection(pika.ConnectionParameters(sys.argv[1]))
         self.channel = self.connection.channel()
 
         result = self.channel.queue_declare(queue='', exclusive=True)

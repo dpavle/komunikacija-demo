@@ -1,9 +1,10 @@
 import pika
 import json
 import timeit
+import sys
 
 # Connect to RabbitMQ
-connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
+connection = pika.BlockingConnection(pika.ConnectionParameters(sys.argv[1]))
 channel = connection.channel()
 
 # Declare the queue

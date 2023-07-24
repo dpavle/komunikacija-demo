@@ -1,4 +1,5 @@
 import pika
+import os
 
 # Sample data (you can replace this with your own data or database)
 tasks = [
@@ -35,7 +36,7 @@ def on_request(ch, method, properties, body):
     ch.basic_ack(delivery_tag=method.delivery_tag)
 
 # Connect to RabbitMQ
-connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
+connection = pika.BlockingConnection(pika.ConnectionParameters(os.environ['RABBITMQ_HOSTNAME'] or 'rabbitmq'))
 channel = connection.channel()
 
 # Declare an RPC queue to receive RPC requests from RabbitMQ
