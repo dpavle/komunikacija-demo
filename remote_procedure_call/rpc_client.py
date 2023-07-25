@@ -2,10 +2,16 @@ import pika
 import uuid
 import timeit
 import sys
+import argparse
+
+parser = argparse.ArgumentParser('Demo RPC client for RabbitMQ')
+parser.add_argument('-H', '--hostname', type=str, default='localhost', help='Hostname of the RabbitMQ server (default: localhost)') 
+parser.add_argument('-n', '--number', type=int, default=5, help='Number of tasks to run (default: 5)')
+args = parser.parse_args()
 
 class RpcClient:
     def __init__(self):
-        self.connection = pika.BlockingConnection(pika.ConnectionParameters(sys.argv[1]))
+        self.connection = pika.BlockingConnection(pika.ConnectionParameters(args.hostname))
         self.channel = self.connection.channel()
 
         result = self.channel.queue_declare(queue='', exclusive=True)
@@ -39,7 +45,7 @@ if __name__ == "__main__":
     client = RpcClient()
 
     # Number of requests to make
-    num_requests = 5
+    num_requests = args.number
 
     # Record the start time
     start_time = timeit.default_timer()

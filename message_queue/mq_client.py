@@ -2,9 +2,15 @@ import pika
 import json
 import timeit
 import sys
+import argparse
+
+parser = argparse.ArgumentParser('Demo RPC client for RabbitMQ')
+parser.add_argument('-H', '--hostname', type=str, default='localhost', help='Hostname of the RabbitMQ server (default: localhost)') 
+parser.add_argument('-n', '--number', type=int, default=5, help='Number of tasks to run (default: 5)')
+args = parser.parse_args()
 
 # Connect to RabbitMQ
-connection = pika.BlockingConnection(pika.ConnectionParameters(sys.argv[1]))
+connection = pika.BlockingConnection(pika.ConnectionParameters(args.hostname))
 channel = connection.channel()
 
 # Declare the queue
@@ -20,7 +26,7 @@ def complete_task(task_id):
 
 if __name__ == '__main__':
     # Number of requests to make
-    num_requests = 5
+    num_requests = args.number
 
     # Record the start time
     start_time = timeit.default_timer()
