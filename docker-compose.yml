@@ -8,13 +8,26 @@ services:
     volumes: 
       - ./rabbitmq/rabbitmq.conf:/etc/rabbitmq.conf:ro
       - ./rabbitmq/definitions.json:/etc/rabbitmq/definitions.json:ro
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
   mq_worker:
     image: mq_worker
+    build: ./message_queue
     environment:
       RABBITMQ_HOSTNAME: komunikacija-demo-rabbitmq-1
+    depends_on: 
+      rabbitmq:
+        condition: service_healthy
   rpc_server:
     image: rpc_server
+    build: ./remote_procedure_call
     environment:
       RABBITMQ_HOSTNAME: komunikacija-demo-rabbitmq-1
+    depends_on: 
+      rabbitmq:
+        condition: service_healthy
   rest_server:
+    build: ./rest_http
     image: rest_server
+    ports:
+      - "5000:5000"
